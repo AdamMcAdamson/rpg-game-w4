@@ -10,7 +10,6 @@ var characterElementArr = [];
 var player = null;
 var playerElement = null;
 
-
 var defender = null;
 var defenderElement = null;
 
@@ -55,7 +54,7 @@ $( document ).ready(function(){
 		if(type === "player"){
 			char = player;
 			charElement = playerElement;
-			console.log( 	)
+			// console.log( 	)
 		} else if(type === "defender"){
 			char = defender;
 			charElement = defenderElement;
@@ -63,20 +62,31 @@ $( document ).ready(function(){
 		// char.team = type + "Team";
 		// char.loc = type;
 
+		char.team = type + "Team";
+		char.loc = type;
+
 		var charIndex = characterArr.indexOf(char);
 
 		charElement = characterElementArr[charIndex];
 
 		charElement.attr("class", "selectable " + char.team);
 
-		characterArr.splice(charIndex, 1);
-		characterElementArr.splice(charIndex, 1);
-
-		for(var i = 0; i < characterArr.length; i++){
-			characterArr[i].team = "enemyTeam";
-			characterArr[i].loc = "enemy";
+		if(type === "player" && !isPlayerSelected){
+			for(var i = 0; i < characterArr.length; i++){
+				if(characterArr[i].team === "neutralTeam"){
+					characterArr[i].team = "enemyTeam";
+					characterArr[i].loc = "enemy";
+				}
+			}
 		}
-
+		if(type === "defender" && !isDefenderSelected){
+			for(var i = 0; i < characterArr.length; i++){
+				if(characterArr[i].team === "neutralTeam"){
+					characterArr[i].team = "enemyTeam";
+					characterArr[i].loc = "enemy";
+				}
+			}
+		}
 		// console.log("Player: - " + player);
 		// console.log(characterArr);
 
@@ -93,10 +103,10 @@ $( document ).ready(function(){
 
 		if(!isPlayerSelected){
 			player = window[target.attr("charname")];
-			isPlayerSelected = true;
-			console.log("PlayerSelected: - " + isPlayerSelected);
-			console.log(player);
+			// console.log("PlayerSelected: - " + isPlayerSelected);
+			// console.log(player);
 			pickChar("player");
+			isPlayerSelected = true;
 		}
 		// console.log(player);
 		updateDisplay();
@@ -111,12 +121,44 @@ $( document ).ready(function(){
 
 		if(!isDefenderSelected){
 			defender = window[target.attr("charname")];
-			isDefenderSelected = true;
 			console.log("DefenderSelected: - " + defender);
 			pickChar("defender");
+			isDefenderSelected = true;
+		}
+		console.log(defender);
+		updateDisplay();
+	});
+
+
+	function updateDisplay(caller){
+
+		var curChar = null;
+		var curCharElem = null;
+
+		var curDiv = null;
+
+		var playerDiv = null;
+
+		for(var i = 0; i < characterArr.length; i++){
+			curChar = characterArr[i];
+			curCharElem = characterElementArr[i];
+			// console.log(curChar);
+			curDiv = $("#" + curChar.loc + "-list");
+			// console.log(curDiv);
+			curDiv.append($('<li id="' + curChar.id + '-li">').append(curCharElem));  
 		}
 
-	});
+		if(isPlayerSelected){
+			playerDiv = $("#" + player.loc + "-list");
+			playerDiv.append($('<li id="' + player.id + '-li">').append(playerElement));  
+		}
+
+		if(caller === "attackButton"){
+			// Show attack values
+			// Update health
+		}
+
+	}
 
 	function buildCharacter(character){
 		//Builds character jquery html element with proper attributes
@@ -147,36 +189,6 @@ $( document ).ready(function(){
 		characterSpan.append(characterHealth);
 
 		return characterSpan;
-	}
-
-	function updateDisplay(caller){
-
-		var curChar = null;
-		var curCharElem = null;
-
-		var curDiv = null;
-
-		var playerDiv = null;
-
-		for(var i = 0; i < characterArr.length; i++){
-			curChar = characterArr[i];
-			curCharElem = characterElementArr[i];
-			console.log(curChar);
-			curDiv = $("#" + curChar.loc + "-list");
-			console.log(curDiv);
-			curDiv.append($('<li id="' + curChar.id + '-li">').append(curCharElem));  
-		}
-
-		if(isPlayerSelected){
-			playerDiv = $("#" + player.loc + "-list");
-			playerDiv.append($('<li id="' + player.id + '-li">').append(playerElement));  
-		}
-
-		if(caller === "attackButton"){
-			// Show attack values
-			// Update health
-		}
-
 	}
 
 	updateDisplay("window");
