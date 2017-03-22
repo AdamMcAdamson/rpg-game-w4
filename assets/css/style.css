@@ -1,3 +1,89 @@
+body{
+	background-image: url("../images/background.jpg");
+}
+
 img {
-	width: 100px;
+	width: 100%;
+	min-height: auto;
+}
+ul{
+	display: block;
+}
+li {
+	display: inline-block;
+	margin: 5px;
+}
+.selectable {
+	box-sizing: border-box;
+	width: auto;
+	height: auto;
+	padding: 5px 16px;
+	border-width: 4px;
+	border-style: solid;
+	border-color: green;
+	background-color: #e3e3e3; 
+
+	
+}
+div.img-div {
+	width: 200px;
+	height: 120px;
+	overflow: hidden;
+}
+
+.playerTeam {
+	
+}
+
+.enemyTeam {
+	border-color: black;
+	background-color: red;
+}
+
+.defenderTeam {
+	color: white;
+	background-color: black;
+
+}
+
+#master-div{
+	margin: 20px;
+}
+
+.head-text {
+	font-size: 2em;
+	padding: 5px 0;
+}
+.character-name {
+	text-align: center;
+	padding-bottom: 5px; 
+}
+
+.health {
+	text-align: center;
+	padding-top: 5px;
+}
+
+#title {
+	text-align: center;
+	font-size: 3em;
+}
+
+#fight-section-div {
+	height: 350px;
+	position: relative;
+}
+
+#player-update{
+	position: absolute;
+	bottom: 24px;
+}
+#enemy-update{
+	position: absolute;
+	bottom: 4px;
+}
+#restart {
+	position: absolute;
+	bottom: 0;
+	visibility: hidden;
 }
